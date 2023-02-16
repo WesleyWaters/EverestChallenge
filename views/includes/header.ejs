@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Everest Challenge</title>
+</head>
+<body>
+    <header>
+        <div >
+          <h4 ><a href="/" class="text-white">OurApp</a></h4>
+          
+            <% if (user) { %>
+                <hr>
+            <% } else { %>
+            <form action="/login" method="POST">
+              <div class=>
+                <div class=>
+                  <input name="username" type="text" placeholder="Username" autocomplete="off">
+                </div>
+                <div >
+                  <input name="password" type="password" placeholder="Password">
+                </div>
+                <div>
+                  <button >Sign In</button>
+                </div>
+              </div>
+            </form>
+          <% } %> 
+        </div>
+      </header>

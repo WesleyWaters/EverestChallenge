@@ -1,0 +1,27 @@
+<%- include('includes/header') %>
+
+<div class="teamMember">
+    <ul>
+        <li><h2 class="userName"><%= user.username %></h2></li>
+        <% user.date.forEach(function(day,dayIndex) { %>
+            <h3><%= day.date %></h3>
+            <% day.count.forEach(function(traversals, index){ %>
+                <li> <%= user.stairCases[index].name %> has <%= user.stairCases[index].steps %> steps. It was traversed <span class="traversalCount"><%= traversals %></span> times. Accounting for <%= user.stairCases[index].steps * traversals %> steps climbed.
+                    <form action="">
+                        <button class="incrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">+</button>
+                        <button class="decrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">-</button>
+                    </form>
+                </li>
+            <% }) %>
+            <hr>
+        <% }) %>
+    </ul>
+    <form action="./addStaircase" method="post">
+        <input type="text" name="staircaseName" id="staircaseName">
+        <input type="number" name="stairCount" id="stairCount">
+        <button type="submit">Add Staircase</button>
+    </form>    
+
+</div>
+
+<%- include('includes/footer') %>
