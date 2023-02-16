@@ -132,7 +132,8 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
                 }},
                 {upsert: true}
             )
-            resolve('complete')
+            delete returnedUser.password
+            resolve(returnedUser)
         }).catch((e)=>{
             reject('failed: ' + e)
         })
@@ -142,9 +143,7 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
 function calculateSteps(user) {
     let totalSteps = 0
     user.date.forEach(day => {
-        console.log(day)
         day.count.forEach((traversals, index) => {
-            console.log(traversals)
             totalSteps += user.stairCases[index].steps * traversals
         });
     });
@@ -164,7 +163,8 @@ User.prototype.decrementCount = function(dateIndex, stairIndex){
                 }},
                 {upsert: true}
             )
-            resolve('complete')
+            delete returnedUser.password
+            resolve(returnedUser)
         }).catch((e)=>{
             reject('failed: ' + e)
         })

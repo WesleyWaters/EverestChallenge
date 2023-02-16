@@ -81,11 +81,15 @@ exports.incrementStairTraversal = async function(req,res){
         let user = new User(req.session.user)
         await user.incrementCount(req.body.dayIndex, req.body.stairIndex).then((returnedUser)=>{
             console.log(returnedUser)
+            res.json(returnedUser)
+        }).catch((e)=>{
+            res.send('failed')
         })
     }else{
         console.log('notcalled')
+        res.send('failed')
     }
-    res.send('incremented')
+    
 }
 
 exports.decrementStairTraversal = async function(req,res){
@@ -94,9 +98,13 @@ exports.decrementStairTraversal = async function(req,res){
         let user = new User(req.session.user)
         await user.decrementCount(req.body.dayIndex, req.body.stairIndex).then((returnedUser)=>{
             console.log(returnedUser)
+            res.json(returnedUser)
+        }).catch((e)=>{
+            res.send('failed')
         })
     }else{
         console.log('notcalled')
+        res.send('failed')
     }
-    res.send('decremented')
+    
 }

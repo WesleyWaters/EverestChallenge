@@ -34,3 +34,8 @@ li{
 .step__total{
     margin-top: 1rem;
 }
+
+.staircaseDateData{
+    margin: 0;
+    padding: 0;
+}

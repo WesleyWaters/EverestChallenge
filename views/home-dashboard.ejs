@@ -6,7 +6,8 @@
         <% user.date.forEach(function(day,dayIndex) { %>
             <h3><%= day.date %></h3>
             <% day.count.forEach(function(traversals, index){ %>
-                <li> <%= user.stairCases[index].name %> has <%= user.stairCases[index].steps %> steps. It was traversed <span class="traversalCount"><%= traversals %></span> times. Accounting for <%= user.stairCases[index].steps * traversals %> steps climbed.
+                <li>
+                    <p class="staircaseDateData"><%= user.stairCases[index].name %> has <%= user.stairCases[index].steps %> steps. It was traversed <span class="traversalCount"><%= traversals %></span> times. Accounting for <%= user.stairCases[index].steps * traversals %> steps climbed.</p>
                     <form action="">
                         <button class="incrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">+</button>
                         <button class="decrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">-</button>
@@ -21,7 +22,7 @@
         <input type="number" name="stairCount" id="stairCount">
         <button type="submit">Add Staircase</button>
     </form>    
-    <h3><%= user.toalSteps %></h3>
+    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %></h3>
 
 </div>
 
