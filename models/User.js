@@ -88,6 +88,7 @@ User.prototype.register = function(){
 User.prototype.getSteps = function(userName){
     return new Promise(async(resolve,reject)=>{
         userCollection.findOne({username:userName}).then((attemptedUser)=>{
+            calculateSteps(attemptedUser)
             resolve(attemptedUser)
         }).catch(function(e){
             reject('Failed: ' + e)
@@ -122,10 +123,12 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
     return new Promise(async(resolve, reject)=>{
         userCollection.findOne({_id: new ObjectID(this._id)}).then((returnedUser)=>{
             returnedUser.date[dateIndex].count[stairIndex] += 1
+            calculateSteps(returnedUser)
             userCollection.updateOne(
                 {_id: new ObjectID(this._id)},
                 {$set: {
-                    date: returnedUser.date
+                    date: returnedUser.date,
+                    totalSteps: returnedUser.totalSteps
                 }},
                 {upsert: true}
             )
@@ -136,11 +139,24 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
     })
 }
 
+function calculateSteps(user) {
+    let totalSteps = 0
+    user.date.forEach(day => {
+        console.log(day)
+        day.count.forEach((traversals, index) => {
+            console.log(traversals)
+            totalSteps += user.stairCases[index].steps * traversals
+        });
+    });
+    user.totalSteps = totalSteps
+}
+
 User.prototype.decrementCount = function(dateIndex, stairIndex){
     console.log('Decrement')
     return new Promise(async(resolve, reject)=>{
         userCollection.findOne({_id: new ObjectID(this._id)}).then((returnedUser)=>{
             returnedUser.date[dateIndex].count[stairIndex] -= 1
+            calculateSteps(returnedUser)
             userCollection.updateOne(
                 {_id: new ObjectID(this._id)},
                 {$set: {
@@ -159,17 +175,6 @@ User.prototype.removeStairCase = function(name){
     this.stairCases = this.stairCases.filter((staircase)=>{
         return staircase != name
     })
-}
-
-User.prototype.getHistory = function(userName){
-    console.log("Getting History")//This does not work at the moment.. just staring to code this.
-    let aggOperation = uniqueOperations.concat([
-        {$lookup: {
-            from:userCollection,
-            localField: _id, 
-        }},
-
-    ])
 }
 
 module.exports = User
