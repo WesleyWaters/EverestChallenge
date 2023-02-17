@@ -3,12 +3,17 @@ let decrementButtons = document.querySelectorAll('.decrementButton')
 let totalStepsDisplay = document.querySelectorAll('.totalStepsDisplay')
 let userData = document.querySelector('.userData')
 let totalSteps
+let dayCount
 
 document.addEventListener('DOMContentLoaded', function(x){
   console.log('dom')
   let user = JSON.parse(userData.getAttribute('data-user'))
   axios.post('./getFrontEndData', {user}).then(response=>{
     totalSteps = response.data.totalSteps
+    dayCount = response.data.date.length
+    console.log(response.data)
+    console.log(response.data.date)
+    console.log(response.data.date.length)
     updateScreen()
   }).catch((e)=>{
     console.log(e)
@@ -35,7 +40,7 @@ incrementButtons.forEach((x)=>{
 
 function updateScreen(){
   totalStepsDisplay.forEach((x)=>{
-    x.closest('h3').innerHTML = `Total Steps: ${totalSteps}/46,446: ${Math.round(totalSteps/46446*10000)/100}%`
+    x.closest('h3').innerHTML = `Total Steps: ${totalSteps}/46,446: ${Math.round(totalSteps/46446*10000)/100}%  Days: ${dayCount}/56 - ${Math.round(dayCount/56*10000)/100}%`
   })
 }
 

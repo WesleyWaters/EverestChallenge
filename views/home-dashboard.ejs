@@ -9,20 +9,26 @@
                 <li>
                     <p class="staircaseDateData"><%= user.stairCases[index].name %> has <%= user.stairCases[index].steps %> steps. It was traversed <span class="traversalCount"><%= traversals %></span> times. Accounting for <%= user.stairCases[index].steps * traversals %> steps climbed.</p>
                     <form action="">
-                        <button class="incrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">+</button>
                         <button class="decrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">-</button>
+                        <button class="incrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">+</button>
                     </form>
                 </li>
             <% }) %>
             <hr>
         <% }) %>
     </ul>
+    <hr>
+    <h2>Summary of progress</h2>
+    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>    
+    <hr>
+    <h2>Add Staircase</h2>
     <form action="./addStaircase" method="post">
+        <label for="staircaseName">Name</label>
         <input type="text" name="staircaseName" id="staircaseName">
+        <label for="stairCount">Number of Steps</label>
         <input type="number" name="stairCount" id="stairCount">
         <button type="submit">Add Staircase</button>
-    </form>    
-    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>
+    </form>
 
 </div>
 
