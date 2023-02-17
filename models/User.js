@@ -77,6 +77,10 @@ User.prototype.register = function(){
         if(!this.errors.length){
             let salt = bcrypt.genSaltSync(10)
             this.data.password = bcrypt.hashSync(this.data.password, salt)
+            this.data.totalSteps = 0
+            this.data.stairCases = []
+            this.data.team = []
+            this.data.date = [{date:new Date('February 13 2023'), count:[]}]
             await userCollection.insertOne(this.data)
             resolve()
         } else{
