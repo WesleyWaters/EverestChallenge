@@ -1,5 +1,5 @@
 <%- include('includes/header') %>
-<div class="userData" data-user="<%= user %>">This is userData</div>
+<div class="userData" data-user="<%= JSON.stringify(user) %>">This is userData</div>
 <div class="teamMember">
     <ul>
         <li><h2 class="userName"><%= user.username %></h2></li>
@@ -22,7 +22,7 @@
         <input type="number" name="stairCount" id="stairCount">
         <button type="submit">Add Staircase</button>
     </form>    
-    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %></h3>
+    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>
 
 </div>
 
