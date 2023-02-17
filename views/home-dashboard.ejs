@@ -1,9 +1,9 @@
 <%- include('includes/header') %>
 <div class="userData" data-user="<%= JSON.stringify(user) %>">This is userData</div>
 <div class="teamMember">
-    <ul>
-        <li><h2 class="userName"><%= user.username %></h2></li>
-        <% user.date.forEach(function(day,dayIndex) { %>
+    <h2 class="userName"><%= user.username %></h2>
+    <% user.date.forEach(function(day,dayIndex) { %>
+        <ul class="teamMember__day">
             <h3><%= day.date %></h3>
             <% day.count.forEach(function(traversals, index){ %>
                 <li>
@@ -13,10 +13,9 @@
                         <button class="incrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">+</button>
                     </form>
                 </li>
-            <% }) %>
-            <hr>
+                <% }) %>
+        </ul>
         <% }) %>
-    </ul>
     <hr>
     <h2>Summary of progress</h2>
     <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>    
