@@ -17,5 +17,6 @@ router.post('/logout',userController.logout)
 router.post('/addStaircase', userController.addStaircase)
 router.post('/incrementStairTraversal', userController.incrementStairTraversal)
 router.post('/decrementStairTraversal', userController.decrementStairTraversal)
+router.post('/getFrontEndData', userController.getFrontEndData)
 
 module.exports = router

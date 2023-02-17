@@ -12,6 +12,8 @@ exports.mustBeLoggedIn = function(req, res, next){
 }
 
 exports.login = function(req,res){
+    console.log(req.body)
+    console.log(JSON.stringify(req.body))
     let user = new User(req.body)
     user.login().then(function(result){
         req.session.user = {username: user.data.username, _id: user.data._id}

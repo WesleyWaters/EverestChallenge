@@ -2,6 +2,16 @@ let incrementButtons = document.querySelectorAll('.incrementButton')
 let decrementButtons = document.querySelectorAll('.decrementButton')
 let totalStepsDisplay = document.querySelectorAll('.totalStepsDisplay')
 let totalSteps
+
+document.addEventListener('DOMContentLoaded', function(x){
+
+  /*axios.post('/getFrontEndData', {}).then(response=>{
+    console.log(response)
+  }).catch((e)=>{
+    console.log(e)
+  })*/
+})
+
 incrementButtons.forEach((x)=>{
   x.addEventListener('click', (e)=>{
     e.preventDefault()

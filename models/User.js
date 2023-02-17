@@ -6,7 +6,7 @@ const ObjectID = require('mongodb').ObjectId
 const validator = require('validator')
 
 let User = function(data){
-    //this.data = data
+    this.data = data
     this.username = data.username
     this._id = data._id
     this.password = data.password
