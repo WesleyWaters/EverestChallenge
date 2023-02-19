@@ -44,6 +44,7 @@ body{
     box-sizing: border-box;
     background-color: rgb(82, 82, 82);
     color: #dad9d6 ;
+    margin-bottom: 5rem;
 }
 
 .userName{
