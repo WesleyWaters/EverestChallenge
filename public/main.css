@@ -1,14 +1,32 @@
-@media only screen and (min-width: 600px){
+@media only screen and (max-width: 600px){
     body{
         box-sizing: border-box;
+    }
+    
+    .incrementButton{
+        width: 3rem;
+        margin-left: 5%;
+    }
+
+    .decrementButton{
+        width: 3rem;
     }
     
 }
 
 
-@media only screen and (max-width: 600px){
+@media only screen and (min-width: 600px){
     li{
         list-style: none;
+    }
+
+    .incrementButton{
+        width: 5rem;
+        margin-left: 5%;
+    }
+
+    .decrementButton{
+        width: 5rem;
     }
 }
 
@@ -42,12 +60,11 @@ li{
 }
 
 .decrementButton{
-    width: 3rem;
-    height: 1.5rem;
     background-color: lightcoral;
     border: none;
     border-radius: 3px;
     box-shadow: 0 0 2px 1px rgb(255, 0, 0);
+    height: 2rem;
 }
 
 .decrementButton:hover, .incrementButton:hover{
@@ -55,12 +72,11 @@ li{
 }
 
 .incrementButton{
-    width: 3rem;
-    height: 1.5rem;
     background-color: lightgreen;
     box-shadow: 0 0 2px 1px rgb(0, 255, 0);
     border-radius: 3px;
     border: none;
+    height: 2rem;
 }    
 
 .collapsible {
@@ -83,14 +99,15 @@ li{
     padding: 0 18px;
     display: none;
     overflow: hidden;
-    border: 2px solid lightblue;
   }
 
   .staircase{
     display: flex;
     background-color: lightblue;
+    border-radius: 1rem;
     color: black;
     margin: 5px 0px;
+    padding: 0.5rem 0px;
     justify-content: center;
     align-items: center;
   }
