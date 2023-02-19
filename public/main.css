@@ -155,4 +155,11 @@ li{
   
   .addStaircaseForm button{
     flex-basis: 65%;
+    background-color: whitesmoke;
+  }
+
+  .addStaircaseForm button:hover{
+    flex-basis: 65%;
+    background-color: whitesmoke;
+    transform: scale(1.02);
   }
