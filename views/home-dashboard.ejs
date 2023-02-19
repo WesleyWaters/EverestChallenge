@@ -29,11 +29,11 @@
     <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>    
     <hr>
     <h2>Add Staircase</h2>
-    <form action="./addStaircase" method="post">
+    <form class="addStaircaseForm" action="./addStaircase" method="post">
         <label for="staircaseName">Name</label>
-        <input type="text" name="staircaseName" id="staircaseName">
+        <input type="text" name="staircaseName" id="staircaseName"><br>
         <label for="stairCount">Number of Steps</label>
-        <input type="number" name="stairCount" id="stairCount">
+        <input type="number" name="stairCount" id="stairCount"><br>
         <button type="submit">Add Staircase</button>
     </form>
 

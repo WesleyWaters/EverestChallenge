@@ -103,6 +103,8 @@ li{
   
   .active, .collapsible:hover {
     background-color: #555;
+    border: 2px solid lightblue;
+    border-radius: 1rem;
   }
   
   .content {
@@ -135,4 +137,21 @@ li{
     justify-content: center;
     align-items: center;
     flex-basis: 50%;
+  }
+
+  .addStaircaseForm{
+    display: flex;
+    flex-direction: column;    
+  }
+
+  .addStaircaseForm label{
+    flex-basis: 25%;
+  }
+  
+  .addStaircaseForm input{
+    flex-basis: 75%;
+  }
+  
+  .addStaircaseForm button{
+    flex-basis: 65%;
   }
