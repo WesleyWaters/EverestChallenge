@@ -6,7 +6,7 @@ const ObjectID = require('mongodb').ObjectId
 const validator = require('validator')
 
 let User = function(data){
-    //this.data = data
+    this.data = data
     this.username = data.username
     this._id = data._id
     this.password = data.password
@@ -77,6 +77,10 @@ User.prototype.register = function(){
         if(!this.errors.length){
             let salt = bcrypt.genSaltSync(10)
             this.data.password = bcrypt.hashSync(this.data.password, salt)
+            this.data.totalSteps = 0
+            this.data.stairCases = []
+            this.data.team = []
+            this.data.date = [{date:new Date('February 13 2023'), count:[]}]
             await userCollection.insertOne(this.data)
             resolve()
         } else{
@@ -93,6 +97,56 @@ User.prototype.getSteps = function(userName){
         }).catch(function(e){
             reject('Failed: ' + e)
         })
+    })
+}
+
+User.prototype.getAllData = function(id){
+    return new Promise(async(resolve,reject)=>{
+        userCollection.findOne({_id: new ObjectID(id)}).then((returnedUser)=>{
+            calculateSteps(returnedUser)
+            addDays(returnedUser)
+            resolve(returnedUser)
+        })
+    })
+}
+
+function addDays(thisUser){
+    return new Promise(async(resolve,reject)=>{
+        let addedNewDays = false
+        var now = new Date()
+        var daysOfChallenge = [];
+        for( var d = new Date(2023, 01, 13,); d <= now; d.setDate(d.getDate() + 1)) {
+            console.log(new Date(d))
+            daysOfChallenge.push(new Date(d))
+        }
+
+        newDayCount = []
+        thisUser.stairCases.forEach((x)=>{
+            newDayCount.push(0)
+        })
+
+        daysOfChallenge.forEach((day)=>{
+            let found = false
+            thisUser.date.forEach((userDay)=>{
+                theDate = new Date(userDay.date).setHours(0,0,0,0)
+                if(+theDate == +day){
+                    found = true
+                    addedNewDays = true
+                }
+            })
+            if(!found){
+                thisUser.date.push({date:day, count:newDayCount})
+            }
+        })
+        if(addedNewDays){
+            userCollection.updateOne(
+                {_id: new ObjectID(thisUser._id)},
+                {$set: {
+                    date: thisUser.date
+                }},
+                {upsert: true}
+                )
+        }
     })
 }
 

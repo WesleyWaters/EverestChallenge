@@ -1,7 +1,26 @@
 let incrementButtons = document.querySelectorAll('.incrementButton')
 let decrementButtons = document.querySelectorAll('.decrementButton')
 let totalStepsDisplay = document.querySelectorAll('.totalStepsDisplay')
+let userData = document.querySelector('.userData')
 let totalSteps
+let dayCount
+
+document.addEventListener('DOMContentLoaded', function(x){
+  console.log('dom')
+  let user = JSON.parse(userData.getAttribute('data-user'))
+  axios.post('./getFrontEndData', {user}).then(response=>{
+    totalSteps = response.data.totalSteps
+    dayCount = response.data.date.length
+    console.log(response.data)
+    console.log(response.data.date)
+    console.log(response.data.date.length)
+    updateScreen()
+  }).catch((e)=>{
+    console.log(e)
+  })
+})
+
+console.log('ran')
 incrementButtons.forEach((x)=>{
   x.addEventListener('click', (e)=>{
     e.preventDefault()
@@ -21,7 +40,7 @@ incrementButtons.forEach((x)=>{
 
 function updateScreen(){
   totalStepsDisplay.forEach((x)=>{
-    x.closest('h3').innerHTML = `Total Steps: ${totalSteps}`
+    x.closest('h3').innerHTML = `Total Steps: ${totalSteps}/46,446: ${Math.round(totalSteps/46446*10000)/100}%  Days: ${dayCount}/56 - ${Math.round(dayCount/56*10000)/100}%`
   })
 }
 
@@ -53,14 +72,3 @@ function calculateSteps(user) {
   });
   user.totalSteps = totalSteps
 }
-
-/*
-sendRequest() {
-    axios.post('/search', {searchTerm: this.inputField.value}).then(response => {
-      console.log(response.data)
-      this.renderResultsHTML(response.data)
-    }).catch(() => {
-      alert("Hello, the request failed.")
-    })
-  }
-  */
