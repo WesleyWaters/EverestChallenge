@@ -103,8 +103,8 @@ User.prototype.getSteps = function(userName){
 User.prototype.getAllData = function(id){
     return new Promise(async(resolve,reject)=>{
         userCollection.findOne({_id: new ObjectID(id)}).then((returnedUser)=>{
-            calculateSteps(returnedUser)
             addDays(returnedUser)
+            calculateSteps(returnedUser)
             resolve(returnedUser)
         })
     })
@@ -196,9 +196,13 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
 
 function calculateSteps(user) {
     let totalSteps = 0
-    user.date.forEach(day => {
-        day.count.forEach((traversals, index) => {
-            totalSteps += user.stairCases[index].steps * traversals
+    user.date.forEach((day, dayIndex) => {
+        console.log("Day: " + dayIndex + JSON.stringify(day))
+        user.date[dayIndex].daySteps = 0
+        day.count.forEach((traversals, stairIndex) => {
+            staircaseDaySteps = user.stairCases[stairIndex].steps * traversals
+            totalSteps += staircaseDaySteps
+            user.date[dayIndex].daySteps += staircaseDaySteps
         });
     });
     user.totalSteps = totalSteps
