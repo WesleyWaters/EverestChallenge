@@ -11,6 +11,11 @@
     .decrementButton{
         width: 3rem;
     }
+
+    .teamMember{
+        width: 95%;
+        margin: auto;
+    }
     
 }
 
@@ -18,6 +23,11 @@
 @media only screen and (min-width: 600px){
     li{
         list-style: none;
+    }
+
+    .teamMember{
+        width: 70%;
+        margin: auto;
     }
 
     .incrementButton{
