@@ -37,7 +37,7 @@ incrementButtons.forEach((x)=>{
       x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = updatedTraversals
       stringDate = formatDate(response.data.date[date].date)
       dayTotal = response.data.date[date].daySteps
-      x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${date + 1} Total: ${dayTotal}`
+      x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${parseInt(date) + 1} Total: ${dayTotal}`
       updateScreen()
     })
   })
@@ -78,7 +78,7 @@ decrementButtons.forEach((x)=>{
       x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = updatedTraversals
       stringDate = formatDate(response.data.date[date].date)
       dayTotal = response.data.date[date].daySteps
-      x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${date + 1} Total: ${dayTotal}`
+      x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${parseInt(date) + 1} Total: ${dayTotal}`
       updateScreen()
     })
   })
