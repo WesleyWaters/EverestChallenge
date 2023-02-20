@@ -13,19 +13,16 @@
         <div >
             <% if (user) { %>
             <% } else { %>
-            <form action="/login" method="POST">
-              <div class=>
-                <div class=>
-                  <input name="username" type="text" placeholder="Username" autocomplete="off">
-                </div>
-                <div >
-                  <input name="password" type="password" placeholder="Password">
-                </div>
-                <div>
-                  <button >Sign In</button>
-                </div>
-              </div>
-            </form>
+            <div class="loginForm">
+              <h1>Login</h1>
+              <form action="/login" method="POST">
+                <label for="usern">Username</label>    
+                <input name="username" type="text" placeholder="Username" autocomplete="off">
+                <label for="pass">Password</label>
+                <input name="password" type="password" placeholder="Password">
+                <button >Sign In</button>
+              </form>
+            </div>
           <% } %> 
         </div>
       </header>

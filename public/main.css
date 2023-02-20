@@ -163,3 +163,34 @@ li{
     background-color: whitesmoke;
     transform: scale(1.02);
   }
+
+  .registerForm{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 30%;
+    margin: auto;
+    padding-left: 3rem;
+    flex-direction: column;
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+  }
+  label{
+    flex: 1;
+    margin: 1rem 0px 0.2rem 0px;
+  }
+
+  input{
+    flex:2;
+  }
+
+  .loginForm{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 30%;
+    margin: 3rem auto;
+    flex-direction: column;
+  }

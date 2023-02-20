@@ -12,8 +12,8 @@ exports.mustBeLoggedIn = function(req, res, next){
 }
 
 exports.login = function(req,res){
-    console.log(req.body)
-    console.log(JSON.stringify(req.body))
+    //console.log(req.body)
+    //console.log(JSON.stringify(req.body))
     let user = new User(req.body)
     user.login().then(function(result){
         req.session.user = {username: user.data.username, _id: user.data._id}
@@ -96,9 +96,9 @@ exports.incrementStairTraversal = async function(req,res){
 
 exports.getFrontEndData = async function(req,res){
     if(req.session.user){
-        console.log('FrontEnd Data' + JSON.stringify(req.body))
-        console.log('FrontEnd Data 2' + JSON.stringify(req.session.user))
-        console.log("USER ID: " + req.session.user._id)
+        //console.log('FrontEnd Data' + JSON.stringify(req.body))
+        //console.log('FrontEnd Data 2' + JSON.stringify(req.session.user))
+        //console.log("USER ID: " + req.session.user._id)
         let user = new User(req.session.user)
         await user.getAllData(req.session.user._id).then((returnedData)=>{
             //console.log("RETURNED DATA: " + JSON.stringify(returnedData))
@@ -122,6 +122,9 @@ exports.decrementStairTraversal = async function(req,res){
     }else{
         console.log('notcalled')
         res.send('failed')
-    }
-    
+    }    
+}
+
+exports.editStaircaseName = async function(req,res){
+
 }

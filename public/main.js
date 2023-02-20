@@ -2,7 +2,7 @@ let incrementButtons = document.querySelectorAll('.incrementButton')
 let decrementButtons = document.querySelectorAll('.decrementButton')
 let totalStepsDisplay = document.querySelectorAll('.totalStepsDisplay')
 let totalDaysDisplay = document.querySelectorAll('.totalDaysDisplay')
-let userData = document.querySelector('.userData')
+let userData = JSON.parse(document.querySelector('.userData').getAttribute('data-user'))
 let collapsible = document.querySelectorAll('.collapsible')
 let totalSteps
 let dayCount
