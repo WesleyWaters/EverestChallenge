@@ -1,28 +1,41 @@
 <%- include('includes/header') %>
-
+<div class="userData" data-user="<%= JSON.stringify(user) %>"></div>
 <div class="teamMember">
-    <ul>
-        <li><h2 class="userName"><%= user.username %></h2></li>
-        <% user.date.forEach(function(day,dayIndex) { %>
-            <h3><%= day.date %></h3>
+    <h2 class="userName"><%= user.username %></h2>
+    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>
+    <h3 class="totalDaysDisplay"></h3>
+    <% user.date.forEach(function(day,dayIndex) { %>
+        <ul class="teamMember__day">
+            <button type="button" class="collapsible"><%= new Date(day.date).getFullYear(); %>/<%= new Date(day.date).getUTCMonth(); %>/<%= new Date(day.date).getUTCDate(); %>: Day <%= dayIndex+1 %> Total: <%= day.daySteps %></button>
+            <div class="day_staircaseData content">
             <% day.count.forEach(function(traversals, index){ %>
-                <li>
-                    <p class="staircaseDateData"><%= user.stairCases[index].name %> has <%= user.stairCases[index].steps %> steps. It was traversed <span class="traversalCount"><%= traversals %></span> times. Accounting for <%= user.stairCases[index].steps * traversals %> steps climbed.</p>
-                    <form action="">
-                        <button class="incrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">+</button>
+                <li class="staircase">
+                    <ul class="staircase__data">
+                        <li class="staircase__data__name"><%= user.stairCases[index].name%></li>
+                        <li class="staircase__data__stepCount">Steps: <%= user.stairCases[index].steps%></li>
+                        <li class="staircase__data__traversals">Traveled: <%= traversals %></li>
+                    </ul>
+                    <form class="staircase__controls" action="">
                         <button class="decrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">-</button>
+                        <button class="incrementButton" data-traversals="<%= traversals %>" data-date="<%= dayIndex %>" data-staircase="<%= index %>">+</button>
                     </form>
                 </li>
             <% }) %>
-            <hr>
+            </div>
+        </ul>
         <% }) %>
-    </ul>
+    <hr>
+    <h2>Summary of progress</h2>
+    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>    
+    <hr>
+    <h2>Add Staircase</h2>
     <form class="addStaircaseForm" action="./addStaircase" method="post">
-        <input type="text" name="staircaseName" id="staircaseName">
-        <input type="number" name="stairCount" id="stairCount">
+        <label for="staircaseName">Name</label>
+        <input type="text" name="staircaseName" id="staircaseName"><br>
+        <label for="stairCount">Number of Steps</label>
+        <input type="number" name="stairCount" id="stairCount"><br>
         <button type="submit">Add Staircase</button>
-    </form>    
-    <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %></h3>
+    </form>
 
 </div>
 

@@ -12,6 +12,8 @@ exports.mustBeLoggedIn = function(req, res, next){
 }
 
 exports.login = function(req,res){
+    console.log(req.body)
+    console.log(JSON.stringify(req.body))
     let user = new User(req.body)
     user.login().then(function(result){
         req.session.user = {username: user.data.username, _id: user.data._id}
@@ -63,9 +65,9 @@ exports.home = async function(req,res){
 
 exports.addStaircase = async function(req,res){
     if(req.session.user){
-        console.log('Ses User: ' + JSON.stringify(req.session.user))
-        console.log(req.body.staircaseName)
-        console.log(req.body.stairCount)
+        //console.log('Ses User: ' + JSON.stringify(req.session.user))
+        //console.log(req.body.staircaseName)
+        //console.log(req.body.stairCount)
         let user = new User(req.session.user)
         await user.addStairCase(req.body.staircaseName, req.body.stairCount).then((returnedUser)=>{
             res.locals.user.data = returnedUser
@@ -76,11 +78,11 @@ exports.addStaircase = async function(req,res){
 }
 
 exports.incrementStairTraversal = async function(req,res){
-    console.log(req.body)
+    //console.log(req.body)
     if(req.session.user){
         let user = new User(req.session.user)
         await user.incrementCount(req.body.dayIndex, req.body.stairIndex).then((returnedUser)=>{
-            console.log(returnedUser)
+            //console.log(returnedUser)
             res.json(returnedUser)
         }).catch((e)=>{
             res.send('failed')
@@ -92,12 +94,27 @@ exports.incrementStairTraversal = async function(req,res){
     
 }
 
+exports.getFrontEndData = async function(req,res){
+    if(req.session.user){
+        console.log('FrontEnd Data' + JSON.stringify(req.body))
+        console.log('FrontEnd Data 2' + JSON.stringify(req.session.user))
+        console.log("USER ID: " + req.session.user._id)
+        let user = new User(req.session.user)
+        await user.getAllData(req.session.user._id).then((returnedData)=>{
+            //console.log("RETURNED DATA: " + JSON.stringify(returnedData))
+            res.json(returnedData)
+        })
+    }else{
+        res.send('must be logged in')
+    }
+}
+
 exports.decrementStairTraversal = async function(req,res){
-    console.log(req.body)
+    //console.log(req.body)
     if(req.session.user){
         let user = new User(req.session.user)
         await user.decrementCount(req.body.dayIndex, req.body.stairIndex).then((returnedUser)=>{
-            console.log(returnedUser)
+            //console.log(returnedUser)
             res.json(returnedUser)
         }).catch((e)=>{
             res.send('failed')

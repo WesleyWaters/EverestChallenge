@@ -1,41 +1,165 @@
-body{
-    box-sizing: border-box;
+@media only screen and (max-width: 600px){
+    body{
+        box-sizing: border-box;
+    }
+    
+    .incrementButton{
+        width: 3rem;
+        margin-left: 5%;
+    }
+
+    .decrementButton{
+        width: 3rem;
+    }
+
+    .teamMember{
+        width: 95%;
+        margin: auto;
+    }
+    
 }
 
 
+@media only screen and (min-width: 600px){
+    li{
+        list-style: none;
+    }
+
+    .teamMember{
+        width: 70%;
+        margin: auto;
+    }
+
+    .incrementButton{
+        width: 5rem;
+        margin-left: 5%;
+    }
+
+    .decrementButton{
+        width: 5rem;
+    }
+}
+
+body{
+    box-sizing: border-box;
+    background-color: rgb(82, 82, 82);
+    color: #dad9d6 ;
+    margin-bottom: 5rem;
+}
+
+.userName{
+    text-align: center;
+}
 .userName::first-letter {
     text-transform: capitalize;
 }
 
-ul{
-    border: 1px solid lightblue;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.totalStepsDisplay{
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+.totalDaysDisplay{
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
 }
 
 li{
-    margin: 0;
-    margin-top: 1px;
-    padding: 0;
-    flex: 1;
     list-style: none;
+}
+
+.decrementButton{
+    background-color: lightcoral;
+    border: none;
     border-radius: 3px;
-    width: 50%;
+    box-shadow: 0 0 2px 1px rgb(255, 0, 0);
+    height: 2rem;
 }
 
-.step__contribution{
+.decrementButton:hover, .incrementButton:hover{
+    transform: scale(1.15);
+}
+
+.incrementButton{
+    background-color: lightgreen;
+    box-shadow: 0 0 2px 1px rgb(0, 255, 0);
+    border-radius: 3px;
+    border: none;
+    height: 2rem;
+}    
+
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: #555;
+    border: 2px solid lightblue;
+    border-radius: 1rem;
+  }
+  
+  .content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+  }
+
+  .staircase{
+    display: flex;
+    background-color: lightblue;
+    border-radius: 1rem;
+    color: black;
+    margin: 5px 0px;
+    padding: 0.5rem 0px;
+    justify-content: center;
     align-items: center;
-    color:darkslategrey;
-}
+  }
 
-.step__total{
-    margin-top: 1rem;
-}
+  .staircase__data{
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    text-align: Left;
+    flex-basis: 50%;
+  }
 
-.staircaseDateData{
-    margin: 0;
-    padding: 0;
-}
+  .staircase__controls{
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 50%;
+  }
+
+  .addStaircaseForm{
+    display: flex;
+    flex-direction: column;    
+  }
+
+  .addStaircaseForm label{
+    flex-basis: 25%;
+  }
+  
+  .addStaircaseForm input{
+    flex-basis: 75%;
+  }
+  
+  .addStaircaseForm button{
+    flex-basis: 65%;
+    background-color: whitesmoke;
+  }
+
+  .addStaircaseForm button:hover{
+    flex-basis: 65%;
+    background-color: whitesmoke;
+    transform: scale(1.02);
+  }

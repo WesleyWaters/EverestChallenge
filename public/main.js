@@ -1,7 +1,28 @@
 let incrementButtons = document.querySelectorAll('.incrementButton')
 let decrementButtons = document.querySelectorAll('.decrementButton')
 let totalStepsDisplay = document.querySelectorAll('.totalStepsDisplay')
+let totalDaysDisplay = document.querySelectorAll('.totalDaysDisplay')
+let userData = document.querySelector('.userData')
+let collapsible = document.querySelectorAll('.collapsible')
 let totalSteps
+let dayCount
+
+document.addEventListener('DOMContentLoaded', function(x){
+  console.log('dom')
+  let user = JSON.parse(userData.getAttribute('data-user'))
+  axios.post('./getFrontEndData', {user}).then(response=>{
+    totalSteps = response.data.totalSteps
+    dayCount = response.data.date.length
+    console.log(response.data)
+    console.log(response.data.date)
+    console.log(response.data.date.length)
+    updateScreen()
+  }).catch((e)=>{
+    console.log(e)
+  })
+})
+
+console.log('ran')
 incrementButtons.forEach((x)=>{
   x.addEventListener('click', (e)=>{
     e.preventDefault()
@@ -13,7 +34,10 @@ incrementButtons.forEach((x)=>{
       totalSteps = response.data.totalSteps
       currentStaircase = response.data.stairCases[staircase]
       updatedTraversals = response.data.date[date].count[staircase]
-      x.parentNode.parentNode.querySelector('p').innerHTML = `${currentStaircase.name} has ${currentStaircase.steps} steps. It was traversed ${updatedTraversals} times. Accounting for ${currentStaircase.steps * updatedTraversals} steps climbed.`
+      x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = updatedTraversals
+      stringDate = formatDate(response.data.date[date].date)
+      dayTotal = response.data.date[date].daySteps
+      x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${parseInt(date) + 1} Total: ${dayTotal}`
       updateScreen()
     })
   })
@@ -21,9 +45,24 @@ incrementButtons.forEach((x)=>{
 
 function updateScreen(){
   totalStepsDisplay.forEach((x)=>{
-    x.closest('h3').innerHTML = `Total Steps: ${totalSteps}`
+    x.innerHTML = `Total Steps: ${totalSteps}/46,446: ${Math.round(totalSteps/46446*10000)/100}%`
+  })
+  totalDaysDisplay.forEach((x)=>{
+    x.innerHTML = `Days: ${dayCount}/56 - ${Math.round(dayCount/56*10000)/100}%`
   })
 }
+
+collapsible.forEach((x)=>{
+  x.addEventListener('click',function(){
+    this.classList.toggle('active');
+    let content = this.nextElementSibling;
+    if(content.style.display === "block"){
+      content.style.display = "none";
+    } else{
+      content.style.display = "block";
+    }
+  })
+})
 
 decrementButtons.forEach((x)=>{
   x.addEventListener('click', (e)=>{
@@ -36,11 +75,30 @@ decrementButtons.forEach((x)=>{
       totalSteps = response.data.totalSteps
       currentStaircase = response.data.stairCases[staircase]
       updatedTraversals = response.data.date[date].count[staircase]
-      x.parentNode.parentNode.querySelector('p').innerHTML = `${currentStaircase.name} has ${currentStaircase.steps} steps. It was traversed ${updatedTraversals} times. Accounting for ${currentStaircase.steps * updatedTraversals} steps climbed.`
+      x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = updatedTraversals
+      stringDate = formatDate(response.data.date[date].date)
+      dayTotal = response.data.date[date].daySteps
+      x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${parseInt(date) + 1} Total: ${dayTotal}`
       updateScreen()
     })
   })
 })
+
+function formatDate(date) {
+  var d = new Date(date),
+    month = '' + (d.getMonth() +1),
+    day = '' + d.getDate(),
+    year = '' + d.getFullYear();
+
+    if(month.length < 2){
+      month = '0' + month;
+    }
+    if(day.length < 2){
+      day = '0' + day;
+    }
+
+    return [year,month, day].join('/');
+}
 
 function calculateSteps(user) {
   let totalSteps = 0
@@ -53,14 +111,3 @@ function calculateSteps(user) {
   });
   user.totalSteps = totalSteps
 }
-
-/*
-sendRequest() {
-    axios.post('/search', {searchTerm: this.inputField.value}).then(response => {
-      console.log(response.data)
-      this.renderResultsHTML(response.data)
-    }).catch(() => {
-      alert("Hello, the request failed.")
-    })
-  }
-  */
