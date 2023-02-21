@@ -99,6 +99,7 @@ exports.getFrontEndData = async function(req,res){
         //console.log('FrontEnd Data' + JSON.stringify(req.body))
         //console.log('FrontEnd Data 2' + JSON.stringify(req.session.user))
         //console.log("USER ID: " + req.session.user._id)
+        console.log('called')
         let user = new User(req.session.user)
         await user.getAllData(req.session.user._id).then((returnedData)=>{
             //console.log("RETURNED DATA: " + JSON.stringify(returnedData))
@@ -123,6 +124,15 @@ exports.decrementStairTraversal = async function(req,res){
         console.log('notcalled')
         res.send('failed')
     }    
+}
+
+exports.deleteStaircase = async function(req,res){
+    if(req.session.user){
+        let user = new User(req.session.user)
+        console.log(req.body)
+        res.send(req.body)
+    }else{
+    res.send('done')}
 }
 
 exports.editStaircaseName = async function(req,res){

@@ -9,14 +9,15 @@ let dayCount
 
 document.addEventListener('DOMContentLoaded', function(x){
   console.log('dom')
-  let user = JSON.parse(userData.getAttribute('data-user'))
-  axios.post('./getFrontEndData', {user}).then(response=>{
+  //let user = JSON.parse(userData.getAttribute('data-user'))
+  axios.post('./getFrontEndData', {userData}).then(response=>{
     totalSteps = response.data.totalSteps
     dayCount = response.data.date.length
     console.log(response.data)
     console.log(response.data.date)
     console.log(response.data.date.length)
     updateScreen()
+    addStaircases()
   }).catch((e)=>{
     console.log(e)
   })
@@ -85,6 +86,7 @@ decrementButtons.forEach((x)=>{
 })
 
 function formatDate(date) {
+  console.log(date)
   var d = new Date(date),
     month = '' + (d.getMonth() +1),
     day = '' + d.getDate(),
@@ -96,7 +98,7 @@ function formatDate(date) {
     if(day.length < 2){
       day = '0' + day;
     }
-
+    console.log([year, month, day])
     return [year,month, day].join('/');
 }
 
@@ -110,4 +112,55 @@ function calculateSteps(user) {
       });
   });
   user.totalSteps = totalSteps
+}
+
+function staircaseTemplate(staircase, index) {
+  return `
+  <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+    <span class="staircase-text">${staircase.name}</span>
+    <span class="staircase-count">${staircase.steps}</span>
+    <div>
+      <button data-index="${index}" class="edit-staircaseName btn btn-secondary btn-sm mr-1">Edit Name</button>
+      <button data-index="${index}" class="edit-staircaseCount btn btn-secondary btn-sm mr-1">Edit Step Count</button>
+      <button data-index="${index}" class="delete-staircase btn btn-danger btn-sm">Delete</button>
+    </div>
+  </li>`
+}
+
+function addStaircases(){
+  console.log(userData.stairCases)
+  let ourStaircaseHTML = userData.stairCases.map(function(staircase, index){
+    return staircaseTemplate(staircase, index)
+  }).join('')
+  document.getElementById('staircaseList').insertAdjacentHTML('beforeend', ourStaircaseHTML)
+  
+  document.addEventListener('click', function(e){
+    if(e.target.classList.contains('edit-staircaseName')){
+      if(confirm("Do you really want to delete this staircase permanently?")){
+        axios.post('/deleteStaircase', {id: e.target.getAttribute('data-index')}).then(function(){
+          e.target.parentElement.parentElement.remove()
+        })
+      }
+    }
+  })
+
+  document.addEventListener('click', function(e){
+    if(e.target.classList.contains('edit-staircaseCount')){
+      if(confirm("Do you really want to delete this staircase permanently?")){
+        axios.post('/deleteStaircase', {id: e.target.getAttribute('data-index')}).then(function(){
+          e.target.parentElement.parentElement.remove()
+        })
+      }
+    }
+  })
+
+  document.addEventListener('click', function(e){
+    if(e.target.classList.contains('delete-staircase')){
+      if(confirm("Do you really want to delete this staircase permanently?")){
+        axios.post('/deleteStaircase', {id: e.target.getAttribute('data-index')}).then(function(){
+          e.target.parentElement.parentElement.remove()
+        })
+      }
+    }
+  })
 }

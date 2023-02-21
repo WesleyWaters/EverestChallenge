@@ -19,4 +19,6 @@ router.post('/incrementStairTraversal', userController.incrementStairTraversal)
 router.post('/decrementStairTraversal', userController.decrementStairTraversal)
 router.post('/getFrontEndData', userController.getFrontEndData)
 
+router.post('/deleteStaircase',userController.deleteStaircase)
+
 module.exports = router
