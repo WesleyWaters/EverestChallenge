@@ -194,3 +194,8 @@ li{
     margin: 3rem auto;
     flex-direction: column;
   }
+
+  .addStaircaseForm button{
+    color: black;
+    background-color: lightskyblue;
+  }

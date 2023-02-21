@@ -54,7 +54,6 @@ User.prototype.login = function(){
     return new Promise((resolve, reject)=>{
         userCollection.findOne({username:this.data.username}).then((attemptedUser)=>{
             if(attemptedUser && bcrypt.compareSync(this.data.password, attemptedUser.password)){
-                console.log(attemptedUser)
                 this.data = attemptedUser
                 console.log("'Logged In'")
                 resolve("Congrats")
@@ -116,7 +115,6 @@ function addDays(thisUser){
         var now = new Date()
         var daysOfChallenge = [];
         for( var d = new Date(2023, 01, 13,); d <= now; d.setDate(d.getDate() + 1)) {
-            console.log(new Date(d))
             daysOfChallenge.push(new Date(d))
         }
 
@@ -197,7 +195,7 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
 function calculateSteps(user) {
     let totalSteps = 0
     user.date.forEach((day, dayIndex) => {
-        console.log("Day: " + dayIndex + JSON.stringify(day))
+        //console.log("Day: " + dayIndex + JSON.stringify(day))
         user.date[dayIndex].daySteps = 0
         day.count.forEach((traversals, stairIndex) => {
             staircaseDaySteps = user.stairCases[stairIndex].steps * traversals
@@ -232,6 +230,44 @@ User.prototype.decrementCount = function(dateIndex, stairIndex){
 User.prototype.removeStairCase = function(name){
     this.stairCases = this.stairCases.filter((staircase)=>{
         return staircase != name
+    })
+}
+
+User.prototype.editStaircaseCount = function(index, newCount){
+    return new Promise(async(resolve, reject)=>{
+        userCollection.findOne({_id: new ObjectID(this._id)}).then((returnedUser)=>{
+            returnedUser.stairCases[index].steps = newCount
+            userCollection.updateOne(
+                {_id: new ObjectID(this._id)},
+                {$set: {
+                    stairCases: returnedUser.stairCases
+                }},
+                {upsert: true}
+            )
+            delete returnedUser.password
+            resolve(returnedUser)
+        }).catch((e)=>{
+            reject('failed: ' + e)
+        })
+    })
+}
+
+User.prototype.editStaircaseName = function(index, newName){
+    return new Promise(async(resolve, reject)=>{
+        userCollection.findOne({_id: new ObjectID(this._id)}).then((returnedUser)=>{
+            returnedUser.stairCases[index].name = newName
+            userCollection.updateOne(
+                {_id: new ObjectID(this._id)},
+                {$set: {
+                    stairCases: returnedUser.stairCases
+                }},
+                {upsert: true}
+            )
+            delete returnedUser.password
+            resolve(returnedUser)
+        }).catch((e)=>{
+            reject('failed: ' + e)
+        })
     })
 }
 

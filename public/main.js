@@ -13,9 +13,6 @@ document.addEventListener('DOMContentLoaded', function(x){
   axios.post('./getFrontEndData', {userData}).then(response=>{
     totalSteps = response.data.totalSteps
     dayCount = response.data.date.length
-    console.log(response.data)
-    console.log(response.data.date)
-    console.log(response.data.date.length)
     updateScreen()
     addStaircases()
   }).catch((e)=>{
@@ -76,7 +73,7 @@ decrementButtons.forEach((x)=>{
       totalSteps = response.data.totalSteps
       currentStaircase = response.data.stairCases[staircase]
       updatedTraversals = response.data.date[date].count[staircase]
-      x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = updatedTraversals
+      x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = 'Traveled: ' + updatedTraversals
       stringDate = formatDate(response.data.date[date].date)
       dayTotal = response.data.date[date].daySteps
       x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${parseInt(date) + 1} Total: ${dayTotal}`
@@ -86,7 +83,7 @@ decrementButtons.forEach((x)=>{
 })
 
 function formatDate(date) {
-  console.log(date)
+  //console.log(date)
   var d = new Date(date),
     month = '' + (d.getMonth() +1),
     day = '' + d.getDate(),
@@ -122,7 +119,7 @@ function staircaseTemplate(staircase, index) {
     <div>
       <button data-index="${index}" class="edit-staircaseName btn btn-secondary btn-sm mr-1">Edit Name</button>
       <button data-index="${index}" class="edit-staircaseCount btn btn-secondary btn-sm mr-1">Edit Step Count</button>
-      <button data-index="${index}" class="delete-staircase btn btn-danger btn-sm">Delete</button>
+      <button data-index="${index}" class="delete-staircase btn btn-danger btn-sm">Delete DOESN"T WORK YET</button>
     </div>
   </li>`
 }
@@ -136,9 +133,15 @@ function addStaircases(){
   
   document.addEventListener('click', function(e){
     if(e.target.classList.contains('edit-staircaseName')){
-      if(confirm("Do you really want to delete this staircase permanently?")){
-        axios.post('/deleteStaircase', {id: e.target.getAttribute('data-index')}).then(function(){
-          e.target.parentElement.parentElement.remove()
+      let newName = prompt('Enter new staircase name')
+      if(newName != null){
+        axios.post('/editStaircaseName', {id: e.target.getAttribute('data-index'), newName: newName}).then(function(x){
+          console.log('New StaircaseName')
+          console.log(x.data.stairCases)
+          userData.stairCases = x.data.stairCases
+          document.getElementById('staircaseList').innerHTML = ''
+          addStaircases()
+          //e.target.parentElement.parentElement.remove()
         })
       }
     }
@@ -146,9 +149,14 @@ function addStaircases(){
 
   document.addEventListener('click', function(e){
     if(e.target.classList.contains('edit-staircaseCount')){
-      if(confirm("Do you really want to delete this staircase permanently?")){
-        axios.post('/deleteStaircase', {id: e.target.getAttribute('data-index')}).then(function(){
-          e.target.parentElement.parentElement.remove()
+      let newCount = prompt('Enter new step count for staircase')
+      if(newCount != null){
+        axios.post('/editStaircaseCount', {id: e.target.getAttribute('data-index'), newCount: newCount}).then(function(x){
+          console.log('New StaircaseCount')
+          console.log(x.data.stairCases)
+          userData.stairCases = x.data.stairCases
+          document.getElementById('staircaseList').innerHTML = ''
+          addStaircases()
         })
       }
     }
@@ -157,8 +165,8 @@ function addStaircases(){
   document.addEventListener('click', function(e){
     if(e.target.classList.contains('delete-staircase')){
       if(confirm("Do you really want to delete this staircase permanently?")){
-        axios.post('/deleteStaircase', {id: e.target.getAttribute('data-index')}).then(function(){
-          e.target.parentElement.parentElement.remove()
+        axios.post('/deleteStaircase', {id: e.target.getAttribute('data-index')}).then(function(x){
+          console.log(x)
         })
       }
     }

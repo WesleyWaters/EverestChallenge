@@ -22,7 +22,7 @@ exports.login = function(req,res){
         })
     }).catch(function(e){
         console.log('Failed initial login')
-        console.log(e)
+        //console.log(e)
         req.flash('errors', e)
         req.session.save(function(){
             res.redirect('/')
@@ -54,7 +54,7 @@ exports.home = async function(req,res){
         await user.getSteps(req.session.user.username).then((returnedUser)=>{
             res.locals.user = returnedUser
         })
-        console.log(res.locals.user)
+        //console.log(res.locals.user)
         res.render('home-dashboard')
     } else{
         //render non logged in user homepage
@@ -71,7 +71,7 @@ exports.addStaircase = async function(req,res){
         let user = new User(req.session.user)
         await user.addStairCase(req.body.staircaseName, req.body.stairCount).then((returnedUser)=>{
             res.locals.user.data = returnedUser
-            console.log(returnedUser)
+            //console.log(returnedUser)
         })
         res.redirect('/')
     }
@@ -96,13 +96,9 @@ exports.incrementStairTraversal = async function(req,res){
 
 exports.getFrontEndData = async function(req,res){
     if(req.session.user){
-        //console.log('FrontEnd Data' + JSON.stringify(req.body))
-        //console.log('FrontEnd Data 2' + JSON.stringify(req.session.user))
-        //console.log("USER ID: " + req.session.user._id)
         console.log('called')
         let user = new User(req.session.user)
         await user.getAllData(req.session.user._id).then((returnedData)=>{
-            //console.log("RETURNED DATA: " + JSON.stringify(returnedData))
             res.json(returnedData)
         })
     }else{
@@ -111,11 +107,9 @@ exports.getFrontEndData = async function(req,res){
 }
 
 exports.decrementStairTraversal = async function(req,res){
-    //console.log(req.body)
     if(req.session.user){
         let user = new User(req.session.user)
         await user.decrementCount(req.body.dayIndex, req.body.stairIndex).then((returnedUser)=>{
-            //console.log(returnedUser)
             res.json(returnedUser)
         }).catch((e)=>{
             res.send('failed')
@@ -129,12 +123,32 @@ exports.decrementStairTraversal = async function(req,res){
 exports.deleteStaircase = async function(req,res){
     if(req.session.user){
         let user = new User(req.session.user)
-        console.log(req.body)
+        console.log('DELETE Staircase' + JSON.stringify(req.body))
         res.send(req.body)
     }else{
     res.send('done')}
 }
 
 exports.editStaircaseName = async function(req,res){
+    if(req.session.user){
+        let user = new User(req.session.user)
+        await user.editStaircaseName(req.body.id, req.body.newName).then((returnedUser)=>{
+            res.json(returnedUser)
+        }).catch((e)=>{
+            res.send('failed')
+        })
+    }
+    console.log('EDIT Staircase Name' + JSON.stringify(req.body))
+}
 
+exports.editStaircaseCount = async function(req,res){
+    if(req.session.user){
+        let user = new User(req.session.user)
+        await user.editStaircaseCount(req.body.id, req.body.newCount).then((returnedUser)=>{
+            res.json(returnedUser)
+        }).catch((e)=>{
+            res.send('failed')
+        })
+    }
+    console.log('EDIT Staircase Count' + JSON.stringify(req.body))
 }
