@@ -1,24 +1,24 @@
 const Team =require('../models/Team')
 
-exports.createTeam = function(req,res){
+exports.createTeam = async function(req,res){
     console.log('Create a team')
-    let team = new Team('TeamName')
-    console.log('after new team')
-
+    console.log('Req: ' + req.body.teamName)
+    
+    let team = new Team()
+    await team.getTeam(req.body.teamName).then((response)=>{
+        console.log('response')
+        res.json(response)
+    }).catch((e)=>{
+        res.json("Find/CreateTeam failed")
+    })
 }
 
-exports.home = async function(req,res){
-    console.log('Home')
-    if(req.session.user){
-        let user = new User(req.session.user)
-        await user.getSteps(req.session.user.username).then((returnedUser)=>{
-            res.locals.user = returnedUser
-        })
-        //console.log(res.locals.user)
-        res.render('home-dashboard')
-    } else{
-        //render non logged in user homepage
-        console.log('Home-Guest')
-        res.render('home-guest')
-    }
+exports.getAllTeams = async function(req,res){
+    let team = new Team()
+    await team.getAllTeams().then((response)=>{
+        console.log('All Teams: ' + response)
+        res.json(response)
+    }).catch((e)=>{
+        res.json('failed to find teams')
+    })
 }

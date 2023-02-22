@@ -2,6 +2,8 @@ let incrementButtons = document.querySelectorAll('.incrementButton')
 let decrementButtons = document.querySelectorAll('.decrementButton')
 let totalStepsDisplay = document.querySelectorAll('.totalStepsDisplay')
 let totalDaysDisplay = document.querySelectorAll('.totalDaysDisplay')
+let createTeamButton = document.querySelector('.createTeamButton')
+let teamList = document.querySelector('.teamList')
 let userData = JSON.parse(document.querySelector('.userData').getAttribute('data-user'))
 let collapsible = document.querySelectorAll('.collapsible')
 let totalSteps
@@ -41,12 +43,26 @@ incrementButtons.forEach((x)=>{
   })
 })
 
-function updateScreen(){
+async function updateScreen(){
   totalStepsDisplay.forEach((x)=>{
     x.innerHTML = `Total Steps: ${totalSteps}/46,446: ${Math.round(totalSteps/46446*10000)/100}%`
   })
   totalDaysDisplay.forEach((x)=>{
     x.innerHTML = `Days: ${dayCount}/56 - ${Math.round(dayCount/56*10000)/100}%`
+  })
+  await axios.get('teamList').then((retrievedTeamList)=>{
+    console.log(retrievedTeamList.data)
+    teamList.innerHTML = ''
+    retrievedTeamList.data.forEach(team => {
+      teamList.insertAdjacentHTML('beforeend',`
+      <div>
+      <li>${JSON.stringify(team.name)}</li>
+      <p>${JSON.stringify(team.totalSteps)}</p>
+      <p>${JSON.stringify(team.members)}</p>
+      <button>Join Team</button>
+      </div>
+      `)
+    });
   })
 }
 
@@ -79,6 +95,16 @@ decrementButtons.forEach((x)=>{
       x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${parseInt(date) + 1} Total: ${dayTotal}`
       updateScreen()
     })
+  })
+})
+
+createTeamButton.addEventListener('click', (e)=>{
+  e.preventDefault()
+  let teamNameInput = document.querySelector('#teamName')
+  console.log('Inner HTML: ' + teamNameInput.innerHTML)
+  console.log('Value: ' + teamNameInput.value)
+  axios.post('./addTeam', {teamName: teamNameInput.value}).then(response=>{
+    console.log('Response: ' + response)
   })
 })
 

@@ -25,4 +25,5 @@ router.post('/editStaircaseName', userController.editStaircaseName)
 router.post('/editStaircaseCount', userController.editStaircaseCount)
 
 router.post('/addTeam', teamController.createTeam)
+router.get('/teamList', teamController.getAllTeams)
 module.exports = router
