@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userController = require('./controllers/userController')
+const teamController = require('./controllers/teamController')
 
 
 const path = require('path');
@@ -23,4 +24,5 @@ router.post('/deleteStaircase',userController.deleteStaircase)
 router.post('/editStaircaseName', userController.editStaircaseName)
 router.post('/editStaircaseCount', userController.editStaircaseCount)
 
+router.post('/addTeam', teamController.createTeam)
 module.exports = router
