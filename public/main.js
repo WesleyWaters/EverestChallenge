@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function(x){
   })
 })
 
-console.log('ran')
 incrementButtons.forEach((x)=>{
   x.addEventListener('click', (e)=>{
     e.preventDefault()
@@ -53,16 +52,25 @@ async function updateScreen(){
   await axios.get('teamList').then((retrievedTeamList)=>{
     console.log(retrievedTeamList.data)
     teamList.innerHTML = ''
-    retrievedTeamList.data.forEach(team => {
+    retrievedTeamList.data.forEach((team, index) => {
       teamList.insertAdjacentHTML('beforeend',`
       <div>
       <li>${JSON.stringify(team.name)}</li>
       <p>${JSON.stringify(team.totalSteps)}</p>
       <p>${JSON.stringify(team.members)}</p>
-      <button>Join Team</button>
+      <button data-teamName="${team.name}" class="joinTeamButton">Join Team</button>
       </div>
       `)
     });
+  })
+  let joinTeamButtons = document.querySelectorAll('.joinTeamButton')
+  joinTeamButtons.forEach((joinButton)=>{
+    joinButton.addEventListener('click',(e)=>{
+      e.preventDefault()  
+      axios.post('joinTeam',{teamName: joinButton.getAttribute('data-teamName')}).then((response)=>{
+        console.log(response)
+      })
+  })    
   })
 }
 

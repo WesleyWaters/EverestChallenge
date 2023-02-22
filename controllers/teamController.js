@@ -22,3 +22,10 @@ exports.getAllTeams = async function(req,res){
         res.json('failed to find teams')
     })
 }
+
+exports.joinTeam = async function(req,res){
+    console.log('Team Name to join: ' + req.body.teamName)
+    console.log('User to add to team: ' + req.session.user)
+    console.log('Joined Team')
+    res.json('JoinedTeam')
+}
