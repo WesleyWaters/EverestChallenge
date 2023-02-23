@@ -176,11 +176,13 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
         userCollection.findOne({_id: new ObjectID(this._id)}).then((returnedUser)=>{
             returnedUser.date[dateIndex].count[stairIndex] += 1
             calculateSteps(returnedUser)
+            calculateWeekTotals(returnedUser)
             userCollection.updateOne(
                 {_id: new ObjectID(this._id)},
                 {$set: {
                     date: returnedUser.date,
-                    totalSteps: returnedUser.totalSteps
+                    totalSteps: returnedUser.totalSteps,
+                    weeklyTotals: returnedUser.weeklyTotals
                 }},
                 {upsert: true}
             )
@@ -192,10 +194,24 @@ User.prototype.incrementCount = function(dateIndex, stairIndex){
     })
 }
 
+function calculateWeekTotals(user){
+    numOfWeeks = Math.ceil(user.date.length/7)
+    let weeks = Array(numOfWeeks).fill(0);
+    try {
+        user.date.forEach((day, dayIndex) => {
+            weekNum = Math.floor(dayIndex/7)
+            weeks[weekNum] += day.daySteps
+        });
+    } catch (error) {
+        console.log("Error: " + error)        
+    }
+    console.log('After: ' + weeks)
+    user.weeklyTotals = weeks
+}
+
 function calculateSteps(user) {
     let totalSteps = 0
     user.date.forEach((day, dayIndex) => {
-        //console.log("Day: " + dayIndex + JSON.stringify(day))
         user.date[dayIndex].daySteps = 0
         day.count.forEach((traversals, stairIndex) => {
             staircaseDaySteps = user.stairCases[stairIndex].steps * traversals
@@ -268,6 +284,23 @@ User.prototype.editStaircaseName = function(index, newName){
         }).catch((e)=>{
             reject('failed: ' + e)
         })
+    })
+}
+
+User.prototype.getStairTotal = function(users){
+    userIds = []
+    //console.log(users)
+    users.forEach((individual)=>{
+        userIds.push(new ObjectID(individual._id))
+    })
+    //console.log(userIds)
+    return new Promise(async(resolve,reject)=>{
+        let returnedSteps = await userCollection.find({_id: {$in: userIds}}).project({totalSteps:1}).toArray()
+        totalSteps = 0
+        returnedSteps.forEach(returnedUser => {
+            totalSteps += returnedUser.totalSteps
+        });
+        resolve(totalSteps)
     })
 }
 

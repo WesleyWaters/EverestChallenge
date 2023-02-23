@@ -4,6 +4,8 @@
     <h2 class="userName"><%= user.username %></h2>
     <h3 class="totalStepsDisplay">Total Steps: <%= user.totalSteps %> / 46,446 : <%= user.totalSteps/46446 %></h3>
     <h3 class="totalDaysDisplay"></h3>
+    <ul class="weeklyTotals">
+    </ul>
     <% user.date.forEach(function(day,dayIndex) { %>
         <ul class="teamMember__day">
             <button type="button" class="collapsible"><%= new Date(day.date).getFullYear(); %>/<%= new Date(day.date).getUTCMonth(); %>/<%= new Date(day.date).getUTCDate(); %>: Day <%= dayIndex+1 %> Total: <%= day.daySteps %></button>

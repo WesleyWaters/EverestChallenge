@@ -4,6 +4,7 @@ const MongoStore = require('connect-mongo')
 const app = express()
 const router = require('./router')
 const flash = require('connect-flash')
+const teamController = require('./controllers/teamController')
 
 
 let sessionOptions = session({
@@ -37,5 +38,17 @@ app.set('view engine', 'ejs')
 
 app.use('/', router)
 
+
+function update(){
+    console.log('updating')
+    teamController.UpdateTotals()
+    setTimeout(()=>{
+        update()
+    }, 30000)
+}
+
+setTimeout(()=>{
+    update()
+}, 5000)
 
 module.exports = app

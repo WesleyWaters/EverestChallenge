@@ -3,6 +3,8 @@ let decrementButtons = document.querySelectorAll('.decrementButton')
 let totalStepsDisplay = document.querySelectorAll('.totalStepsDisplay')
 let totalDaysDisplay = document.querySelectorAll('.totalDaysDisplay')
 let createTeamButton = document.querySelector('.createTeamButton')
+let weeklyTotalsSection = document.querySelector('.weeklyTotals')
+let teamMemberDays = document.querySelectorAll('.teamMember__day')
 let teamList = document.querySelector('.teamList')
 let userData = JSON.parse(document.querySelector('.userData').getAttribute('data-user'))
 let collapsible = document.querySelectorAll('.collapsible')
@@ -33,7 +35,7 @@ incrementButtons.forEach((x)=>{
       totalSteps = response.data.totalSteps
       currentStaircase = response.data.stairCases[staircase]
       updatedTraversals = response.data.date[date].count[staircase]
-      x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = updatedTraversals
+      x.parentNode.parentNode.querySelector('.staircase__data__traversals').innerHTML = 'Traveled: ' + updatedTraversals
       stringDate = formatDate(response.data.date[date].date)
       dayTotal = response.data.date[date].daySteps
       x.parentNode.parentNode.parentNode.parentNode.querySelector('.collapsible').innerHTML = `${stringDate}: Day ${parseInt(date) + 1} Total: ${dayTotal}`
@@ -55,14 +57,25 @@ async function updateScreen(){
     retrievedTeamList.data.forEach((team, index) => {
       teamList.insertAdjacentHTML('beforeend',`
       <div>
-      <li>${JSON.stringify(team.name)}</li>
-      <p>${JSON.stringify(team.totalSteps)}</p>
-      <p>${JSON.stringify(team.members)}</p>
+      <li>${team.name}: ${JSON.stringify(team.totalSteps)}</li>
+      <p>Team Members: ${team.teamMembers.map(x=>{
+        return x.username
+      }).join(',')}</p>
       <button data-teamName="${team.name}" class="joinTeamButton">Join Team</button>
       </div>
       `)
     });
   })
+
+  let weeklyTotalsHTML = userData.weeklyTotals.map(function(weeklyTotal,index){
+    return `
+    <ul>
+    <button data-index="${index}" class="weekButton">Week ${index+1}: ${weeklyTotal}</button>
+    </ul>
+    `
+  }).join('')
+  weeklyTotalsSection.innerHTML = weeklyTotalsHTML
+
   let joinTeamButtons = document.querySelectorAll('.joinTeamButton')
   joinTeamButtons.forEach((joinButton)=>{
     joinButton.addEventListener('click',(e)=>{
@@ -74,7 +87,10 @@ async function updateScreen(){
   })
 }
 
-collapsible.forEach((x)=>{
+collapsible.forEach((x, index)=>{
+  let buttonDate = formatDate(userData.date[index].date)
+  let buttonCurrentTotal = userData.date[index].daySteps
+  x.innerHTML = `${buttonDate}: Day ${index+1} Total: ${buttonCurrentTotal}`
   x.addEventListener('click',function(){
     this.classList.toggle('active');
     let content = this.nextElementSibling;
@@ -84,6 +100,18 @@ collapsible.forEach((x)=>{
       content.style.display = "block";
     }
   })
+})
+
+let list = []
+teamMemberDays.forEach((day, index)=>{
+  weekIndex = Math.floor(index/7)
+  if(index%7 == 0){
+      day.insertAdjacentHTML('beforebegin', `<ul class="week" id="week_${weekIndex}">`)
+      list.push(document.getElementById(`week_${weekIndex}`))
+      list[weekIndex].insertBefore(day,null)
+  }else{
+    list[weekIndex].insertBefore(day,null)
+  }
 })
 
 decrementButtons.forEach((x)=>{
@@ -117,7 +145,7 @@ createTeamButton.addEventListener('click', (e)=>{
 })
 
 function formatDate(date) {
-  //console.log(date)
+  console.log('Input Date' + date)
   var d = new Date(date),
     month = '' + (d.getMonth() +1),
     day = '' + d.getDate(),
@@ -129,7 +157,7 @@ function formatDate(date) {
     if(day.length < 2){
       day = '0' + day;
     }
-    console.log([year, month, day])
+    console.log('Output Date' + [year, month, day])
     return [year,month, day].join('/');
 }
 
@@ -153,7 +181,6 @@ function staircaseTemplate(staircase, index) {
     <div>
       <button data-index="${index}" class="edit-staircaseName btn btn-secondary btn-sm mr-1">Edit Name</button>
       <button data-index="${index}" class="edit-staircaseCount btn btn-secondary btn-sm mr-1">Edit Step Count</button>
-      <button data-index="${index}" class="delete-staircase btn btn-danger btn-sm">Delete DOESN"T WORK YET</button>
     </div>
   </li>`
 }

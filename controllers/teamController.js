@@ -1,4 +1,5 @@
 const Team =require('../models/Team')
+const User = require('../models/User')
 
 exports.createTeam = async function(req,res){
     console.log('Create a team')
@@ -25,7 +26,30 @@ exports.getAllTeams = async function(req,res){
 
 exports.joinTeam = async function(req,res){
     console.log('Team Name to join: ' + req.body.teamName)
-    console.log('User to add to team: ' + req.session.user)
-    console.log('Joined Team')
-    res.json('JoinedTeam')
+    console.log('User to add to team: ' + JSON.stringify(req.session.user))
+    let team = new Team()
+    await team.joinTeam(req.body.teamName, req.session.user).then((response)=>{
+        res.json(response)
+    }).catch((e)=>{
+        res.json("Failed to join team")
+    })
+}
+
+exports.UpdateTotals = async function(){
+    let team = new Team()
+    let user = new User({username: 'Anonymous', password:'1234'})
+    let returnedTeams
+    await team.getAllTeams().then((allTeams)=>{
+        returnedTeams = allTeams
+        console.log('Team Totals Updated')
+    }).catch((e)=>{
+        console.log('Failed to update team totals: ' + e)
+    })
+    returnedTeams.map(async (individualTeam)=>{
+        await user.getStairTotal(individualTeam.teamMembers).then((totals)=>{
+            console.log(individualTeam.name + ':' + totals)
+            individualTeam.totalSteps = totals
+        })
+        await team.setTotal(individualTeam.name, individualTeam.totalSteps)
+    })
 }
