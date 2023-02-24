@@ -53,6 +53,25 @@ body{
   border: 1px solid aliceblue;
 }
 
+.weeklyTotals{
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+}
+.weeklyTotals ul{
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  margin: 5px;
+}
+.weekButton{
+  flex:1;
+  flex-grow: 1;
+  justify-content: center;
+  display: flex;
+}
+
 .userName{
     text-align: center;
 }

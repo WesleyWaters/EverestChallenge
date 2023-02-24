@@ -70,11 +70,34 @@ async function updateScreen(){
   let weeklyTotalsHTML = userData.weeklyTotals.map(function(weeklyTotal,index){
     return `
     <ul>
-    <button data-index="${index}" class="weekButton">Week ${index+1}: ${weeklyTotal}</button>
+    <button data-visible="true" data-index="${index}" class="weekButton">Week ${index+1}: ${weeklyTotal}</button>
     </ul>
     `
   }).join('')
   weeklyTotalsSection.innerHTML = weeklyTotalsHTML
+
+  let weekButtons = document.querySelectorAll('.weekButton')
+  weekButtons.forEach((weekButton)=>{
+    weekButton.addEventListener('click',(e)=>{
+      e.preventDefault()
+      isVisible = weekButton.getAttribute('data-visible')
+      console.log('IsVisible: ' + isVisible)
+      index = weekButton.getAttribute('data-index')
+      id = `week_${index}`
+      weekUL = document.getElementById(id)
+      console.log(isVisible == 'true')
+      console.log(isVisible == true)
+      if(isVisible == 'true'){
+        console.log('hide')
+        weekUL.style.display = 'none';
+        weekButton.setAttribute('data-visible', 'false')
+      }else{
+        console.log('show')
+        weekUL.style.display = "block";
+        weekButton.setAttribute('data-visible', 'true')
+      }      
+    })
+  })
 
   let joinTeamButtons = document.querySelectorAll('.joinTeamButton')
   joinTeamButtons.forEach((joinButton)=>{
