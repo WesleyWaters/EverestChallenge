@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs')
 const userCollection = require('../db').db().collection('Users')
-const stairsCollection = require('../db').db().collection('Stairs')
-const progressCollection = require('../db').db().collection('progress')
+const teamCollection = require('../db').db().collection('Teams')
 const ObjectID = require('mongodb').ObjectId
 const validator = require('validator')
 

@@ -61,11 +61,12 @@ async function updateScreen(){
       <p>Team Members: ${team.teamMembers.map(x=>{
         return x.username
       }).join(',')}</p>
-      <button data-teamName="${team.name}" class="joinTeamButton">Join Team</button>
+      
       </div>
       `)
     });
   })
+/*<button data-teamName="${team.name}" class="joinTeamButton">Join Team</button>*/
 
   let weeklyTotalsHTML = userData.weeklyTotals.map(function(weeklyTotal,index){
     return `
