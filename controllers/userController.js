@@ -152,3 +152,11 @@ exports.editStaircaseCount = async function(req,res){
     }
     console.log('EDIT Staircase Count' + JSON.stringify(req.body))
 }
+
+exports.allUserTotalSteps = async function(req,res){
+    let user = new User({username: 'Anonymous', password:'1234'})
+    await user.getAllUsersStepTotal().then((returnedTotals)=>{
+        res.json(returnedTotals)
+    })
+    
+}

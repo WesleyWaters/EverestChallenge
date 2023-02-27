@@ -303,4 +303,12 @@ User.prototype.getStairTotal = function(users){
     })
 }
 
+User.prototype.getAllUsersStepTotal = function(){
+    return new Promise(async(resolve,reject)=>{
+        let usersStepTotals = await userCollection.find().project({username:1, totalSteps:1}).toArray()
+        resolve(usersStepTotals)
+    })
+    
+}
+
 module.exports = User

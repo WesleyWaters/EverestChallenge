@@ -19,6 +19,7 @@ router.post('/addStaircase', userController.addStaircase)
 router.post('/incrementStairTraversal', userController.incrementStairTraversal)
 router.post('/decrementStairTraversal', userController.decrementStairTraversal)
 router.post('/getFrontEndData', userController.getFrontEndData)
+router.get('/allUserTotalSteps', userController.allUserTotalSteps)
 
 router.post('/deleteStaircase',userController.deleteStaircase)
 router.post('/editStaircaseName', userController.editStaircaseName)
@@ -27,4 +28,6 @@ router.post('/editStaircaseCount', userController.editStaircaseCount)
 router.post('/addTeam', teamController.createTeam)
 router.get('/teamList', teamController.getAllTeams)
 router.post('/joinTeam', teamController.joinTeam)
+
+
 module.exports = router

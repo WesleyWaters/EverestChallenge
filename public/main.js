@@ -51,6 +51,12 @@ async function updateScreen(){
   totalDaysDisplay.forEach((x)=>{
     x.innerHTML = `Days: ${dayCount}/56 - ${Math.round(dayCount/56*10000)/100}%`
   })
+  let userTotals = []
+  await axios.get('/allUserTotalSteps').then((retrievedUserTotals)=>{
+    userTotals = retrievedUserTotals.data
+  })
+  console.log('Retrieved User Totals')
+  console.log(userTotals)
   await axios.get('teamList').then((retrievedTeamList)=>{
     console.log(retrievedTeamList.data)
     teamList.innerHTML = ''
@@ -58,9 +64,14 @@ async function updateScreen(){
       teamList.insertAdjacentHTML('beforeend',`
       <div>
       <li>${team.name}: ${JSON.stringify(team.totalSteps)}</li>
-      <p>Team Members: ${team.teamMembers.map(x=>{
-        return x.username
-      }).join(',')}</p>
+      <p>Team Members:<br>${team.teamMembers.map(x=>{
+        thisUserTotalSteps = userTotals.filter((total)=>{
+          return total.username == x.username
+        })
+        console.log('This User Total Steps: ' + JSON.stringify(thisUserTotalSteps))
+        console.log(thisUserTotalSteps.totalSteps)
+        return `${x.username}: ${thisUserTotalSteps[0].totalSteps}`
+      }).join('<BR>')}</p>
       
       </div>
       `)
