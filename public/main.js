@@ -63,7 +63,7 @@ async function updateScreen(){
     retrievedTeamList.data.forEach((team, index) => {
       teamList.insertAdjacentHTML('beforeend',`
       <div>
-      <li>${team.name}: ${JSON.stringify(team.totalSteps)}</li>
+      <li><h1>${team.name}: ${JSON.stringify(team.totalSteps)}<br>${Math.round(parseInt(JSON.stringify(team.totalSteps))/46446*100)/100}% of challenge completed</h1></li>
       <p>Team Members:<br>${team.teamMembers.map(x=>{
         thisUserTotalSteps = userTotals.filter((total)=>{
           return total.username == x.username
